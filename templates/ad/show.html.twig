@@ -2,9 +2,9 @@
 
 {% block title %}
 {{ ad.title }}
-{% endblock %}}
+{% endblock %}
 {% block body %}
-    <div class="ad-title" style="background-image: url({{ ad.cover.image }})">
+    <div class="ad-title" style="background-image: url({{ ad.coverImage }})">
         <div class="container">
             <h1>{{ ad.title }}</h1>
             <p>{{ ad.introduction }}</p>
@@ -14,7 +14,7 @@
             </p>
             <a href="#" class="btn btn-primary">Réserver !</a>
         </div>
-   <h>{{ ad.title }}</h>
+   <h1>{{ ad.title }}</h1>
    </div>
 
     <div class="container">
@@ -24,7 +24,7 @@
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         {% for image in ad.images %}
-                        <li data-target="#carouselExampleIndicators" data-slide-to="{% loop.index0 %}" {% if loop.first %}class="active"{% endif %}></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
                         {% endfor %}
                     </ol>
                     <div class="carousel-inner">
