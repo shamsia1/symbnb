@@ -30,7 +30,6 @@ class AdController extends AbstractController
      *
      * @Route("/ads/{slug}", name="ads_show")
      *
-     * paramconverteur(on change un parametere en une entity)
      */
     public function show(Ad $ad)
     {

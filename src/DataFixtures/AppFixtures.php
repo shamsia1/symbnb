@@ -3,10 +3,11 @@
 namespace App\DataFixtures;
 
 use App\Entity\Ad;
-use App\Entity\Image;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+use App\Entity\Image;
+
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class AppFixtures extends Fixture
 {
