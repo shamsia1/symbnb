@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Entity\Image;
 use App\Form\AdType;
 use App\Repository\AdRepository;
 use Doctrine\Persistence\ObjectManager;
@@ -37,6 +38,11 @@ class AdController extends AbstractController
     {
 
         $ad = new Ad();
+        $image = new Image();
+        $image->setUrl('http://placehold.it/400x200')
+                ->setCaption('Titre 1');
+
+        $ad->addImage($image);
 
         $form = $this->createForm(AdType::class, $ad);
 
