@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Form\AdType;
 use App\Repository\AdRepository;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdController extends AbstractController
@@ -24,6 +28,39 @@ class AdController extends AbstractController
         ]);
     }
 
+    /**
+     * creation de formulaire d'annonce
+     * @Route("/ads/new", name="ads_create")
+     * 
+     */
+    public function create(Request $request)
+    {
+
+        $ad = new Ad();
+
+        $form = $this->createForm(AdType::class, $ad);
+
+        $form->handleRequest($request);
+           
+        if($form->isSubmitted() && $form->isValid()){
+            
+            $manager = $this->getDoctrine()->getManager();
+
+            $manager->persist($ad);
+            $manager->flush();
+
+            $this->addFlash('success',
+             "L'annouce <strong>{$ad->getTitle()}</strong> a bien été enregistrée !"
+            );
+
+            return $this->redirectToRoute('ads_show', [
+                'slug' => $ad->getSlug()
+            ]);
+        }
+        return $this->render('ad/new.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
 
     /**
      * permet d'afficher une seule announce
@@ -39,4 +76,5 @@ class AdController extends AbstractController
             'ad' => $ad
         ]);
     }
+    
 }

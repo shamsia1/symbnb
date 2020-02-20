@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Creation d'une announce{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1>
+            Créer une nouvelle announce
+        </h1>
+        {{form_start(form)}}
+        {{form_widget(form)}}
+        <button type:"submit" class="btn btn-primary">Créer la nouvelle announce</button>
+        {{form_end(form)}}
+    </div>
+
+{% endblock %}

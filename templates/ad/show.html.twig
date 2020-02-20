@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-{{ ad.title }}
+{{ad.title}}
 {% endblock %}
+
 {% block body %}
     <div class="ad-title" style="background-image: url({{ ad.coverImage }})">
         <div class="container">
@@ -13,21 +14,23 @@
                 </strong> par nuit
             </p>
             <a href="#" class="btn btn-primary">Réserver !</a>        
-        <h1>{{ ad.title }}</h1>
+        {# <h1>{{ ad.title }}</h1> #}
    </div>
    </div>
-
+ 
     <div class="container">
         <div class="row">
             <div class="col-md-8 mb-3">
                 {{ ad.content | raw }}
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                 
+                  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         {% for image in ad.images %}                        
                         <li data-target="#carouselExampleIndicators" data-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active"{% endif %}></li>
                         {% endfor %}
                     </ol>
                     <div class="carousel-inner">
+
                         {% for image in ad.images %}
                         <div class="carousel-item {% if loop.first %}active{% endif %}">
                             <img class="d-block w-100" src="{{ image.url }}" alt="First slide">
@@ -38,6 +41,7 @@
                         </div>
                         {% endfor %}
                     </div>
+                    
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
@@ -46,7 +50,8 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
-                </div>
+                </div> 
+
             </div>
             <div class="col">
                 <div class="row">
@@ -58,7 +63,9 @@
                         <span class="badge badge-primary"> 3 announces</span>
                     </div>
                 </div>
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugiat id voluptate rem deserunt ex repudiandae laboriosam, nobis ea dolor pariatur!</p>
+                <p>Necessitatibus, aut ex atque fugit odit repudiandae ut incidunt laboriosam, sint earum cupiditate voluptatum eveniet, numquam veritatis temporibus voluptas optio.</p>
             </div>
         </div>
-    </div>
+    </div> 
 {% endblock %}

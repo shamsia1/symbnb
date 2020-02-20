@@ -7,7 +7,7 @@
     <h1 class="my-3">Voici les announce de nos hotes</h1>
     <div class="row">
         {% for ad in ads %}
-            {% set url = "{{ path{'ad_show', {'slug': ad.slug }} }}" %}
+            {% set url = path('ads_show', {'slug': ad.slug}) %}
         <div class="col-md-4 ">
             <div class="card bg-light mb-3">
                 <div class="card-header text-center">
