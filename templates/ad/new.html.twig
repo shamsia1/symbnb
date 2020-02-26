@@ -14,12 +14,11 @@
         <button type="submit" class="btn btn-primary">Créer la nouvelle announce</button>
         {{form_end(form)}}
     </div>
-
 {% endblock %}
+
 {% block _ad_images_widget %}
     <p>Ici vous pouvez ajouter vos propres images !</p>
     {{ form_widget(form) }}
-
     <div class="form-group">
         <button type="button" id="add-image" class="btn btn-primary">
             Ajouter une image
@@ -30,18 +29,27 @@
 {% block _ad_images_entry_row %}
     {{ form_widget(form) }}
 {% endblock %}
+
 {% block _ad_images_entry_widget %}
-    <div class = "form-group">
-        <div class = "row">
-            <div class = "col">
-                {{ form_widget(form.url) }}
+    <div class = "form-group" id="block_{{id}}">
+        <div class="row">
+             <div class="col-10">          
+                <div class = "row">
+                    <div class = "col">
+                        {{ form_widget(form.url) }}
+                    </div>
+                    <div class = "col">
+                        {{ form_widget(form.caption) }}
+                    </div>
+                </div>
             </div>
-            <div class = "col">
-                {{ form_widget(form.caption) }}
+            <div class="col-2">
+                <button type="button" data-action="delete" data-target="#block_{{id}}" class="btn btn-danger">x</button>
             </div>
         </div>
     </div>
 {% endblock %}
+
 {% block javascripts %}
     <script>
         $('#add-image').click(function (){
@@ -49,11 +57,28 @@
             const index = $('#ad_images div.form-group').length;
 
             // je récupére le prototype des entrees
-            const tmpl = $('#add-images').data('prototype').replace(/__name__/g, index);
+            const tmpl = $('#ad_images').data('prototype').replace(/__name__/g, index);
+
 
             //j'inject ce code au sein de la vie
             $('#ad_images').append(tmpl);
+
+            //je gére le bouton supprimer
+            handleDeleteButtons();
+
         });
+        function handleDeleteButtons(){
+            $('button[data-action="delete"]').click(function(){
+                const target = this.dataset.target;
+             
+                $(target).remove(); 
+
+            });
+        }
+
+        handleDeleteButtons();
+          
     </script>
+        
 
 {% endblock %}
