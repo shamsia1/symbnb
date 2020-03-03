@@ -7,14 +7,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AdRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ *  fields={"title"}, 
+ *  message="une autre announce posséde déjà ce titre, merci de le modifier!"
+ *  )
  */
-// life cycle callbacks (il ya des fonction a appeller lors de cycle de
-// de vie des donnee.
+
 class Ad
 {
     /**
