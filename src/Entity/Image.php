@@ -25,7 +25,7 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=10, minMessage="Le titre de l'image doit faire au moins 10 caractére")
+     * @Assert\Length(min=10, minMessage="Le titre de l'image doit faire au moins 10 caractérer")
      */
     private $caption;
 
