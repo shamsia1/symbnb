@@ -14,9 +14,19 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy 
+            anonymous: true
 
-            # activate different ways to authenticate
+            provider: in_database 
+
+            form_login: 
+                login_path: account_login
+                check_path: account_login
+
+            logout:
+                path: account_logout
+                target: account_login
+
+            # activate different ways to authenticate(formulaire)
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
             # https://symfony.com/doc/current/security/impersonating_user.html
