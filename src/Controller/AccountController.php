@@ -2,12 +2,18 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Entity\User;
+use App\Form\AccountType;
 use App\Form\RegistrationType;
+use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+
 
 
 
@@ -46,11 +52,29 @@ class AccountController extends AbstractController
     * @return Response
     *
     */
-    public function register()
+    public function register(Request $request, UserPasswordEncoderInterface $encoder)
     {
     	$user = new user();
 
     	$form = $this->createForm(RegistrationType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $hash = $encoder->encodePassword($user, $user->getHash());
+            $user->setHash($hash);
+
+
+           $manager = $this->getDoctrine()->getManager();
+
+           $manager->persist($user);
+
+            $manager->flush(); 
+
+            $this->addFlash('success', "Votre compte a bien été créé! Vous pouvez vous connecter !");
+            return $this->redirectToRoute(('account_login'));
+        }
+
 
     	return $this->render('account/registration.html.twig',[
     		'form' => $form->createView()
@@ -58,4 +82,32 @@ class AccountController extends AbstractController
 
 
     }
+
+    /**
+     * permet d'afficher et de traiter le formulaire de modification de profile
+     * 
+     * @Route("/account/profile", name="account_profile")
+     * 
+     * @return Response
+     */
+    public function profile(Request $request){
+        $user = $this->getUser();
+        $form = $this->createForm(AccountType::class, $user);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('success', "les données de profile ont été enregistrer avec succés !");
+        }
+        return $this->render("account/profile.html.twig",[
+            'form' => $form->createView()
+        ]);
+
+    }
 }
+

@@ -7,9 +7,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity
+ *  (fields={"email"},
+ *  message="un autre utilisateur s'est deja inscrit avec cette adresse email, merci de la midifier"
+ * )
  */
 class User implements UserInterface
 {
@@ -22,36 +29,49 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez renseinger votre prenom ")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Vous devez renseinger votre nom de famille")
      */
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255) 
+     * @Assert\Email(message="Veuillez renseigner un email valide")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message="Vous devez donner une URL valide")
      */
     private $picture;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
      */
     private $hash;
 
     /**
+     * @Assert\EqualTo(propertyPath="hash"), message="Vous n'avez pas correctement confirmé votre mot de pass")
+     */
+
+    public $passwordConfirm;
+
+    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, minMessage="Votre introduction dois faire au moin 10 characters ")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=100, minMessage="Votre description dois faire au moin 100 characters ")
      */
     private $description;
 
