@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\PasswordUpdate;
 use App\Entity\User;
 use App\Form\AccountType;
+use App\Form\PasswordUpdateType;
 use App\Form\RegistrationType;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -105,6 +107,24 @@ class AccountController extends AbstractController
             $this->addFlash('success', "les données de profile ont été enregistrer avec succés !");
         }
         return $this->render("account/profile.html.twig",[
+            'form' => $form->createView()
+        ]);
+
+    }
+
+
+    /**
+     * permet de modifier le mot de pass
+     * 
+     * @Route("/account/password-update", name="account_password")
+     * @return Response
+     */
+    public function updatePassword(){
+        $passwordupdate = new PasswordUpdate();
+
+        $form = $this->createForm(PasswordUpdateType::class, $passwordupdate);
+
+        return $this->render("account/password.html.twig",[
             'form' => $form->createView()
         ]);
 
