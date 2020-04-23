@@ -49,7 +49,10 @@ class AdController extends AbstractController
                 $image->setAd($ad);
                 $manager = $this->getDoctrine()->getManager();
                 $manager->persist($image);
+
             }
+            // ajouter l'author de l'announce
+            $ad->setAuthor($this->getUser());
 
             $manager = $this->getDoctrine()->getManager();
 
