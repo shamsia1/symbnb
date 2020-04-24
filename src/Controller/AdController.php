@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
-use App\Entity\Image;
 use App\Form\AdType;
+use App\Entity\Image;
 use App\Repository\AdRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdController extends AbstractController
@@ -32,6 +34,7 @@ class AdController extends AbstractController
     /**
      * creation de formulaire d'annonce
      * @Route("/ads/new", name="ads_create")
+     * @IsGranted("ROLE_USER")
      * 
      */
     public function create(Request $request)
@@ -76,6 +79,7 @@ class AdController extends AbstractController
     * permet d'afficher le formulaire d'edition
     *
     * @Route("/ads/{slug}/edit", name="ads_edit")
+    * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message= "Cette announce ne vous appartient pas, vous ne pouvez pad la modifier")
     */
     public function edit(Ad $ad, Request $request)
     {
