@@ -6,8 +6,8 @@ use App\Entity\Ad;
 use App\Form\AdType;
 use App\Entity\Image;
 use App\Repository\AdRepository;
-use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -134,4 +134,28 @@ class AdController extends AbstractController
         ]);
     } 
     
+    /**
+     * permet de supprimer une annouce
+     * 
+     * @Route("/ads/{slug}/delete", name="ads_delete")
+     * @Security("is_granted('ROLE_USER') and user === ad.getAuthor()", message="Vous n'avez pad
+     * s le droit d'accéder a cette ressource")
+     * 
+     * @param Ad $ad
+     * @param ObjectManager $manager
+     * @return Response
+     */
+
+    public function delete(Ad $ad){
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($ad);
+      
+        $manager->flush();
+
+        $this->addFlash('success', "L'annouce <strong>{$ad->getTitle()}</strong> a bien été supprimer !");
+
+        return $this->redirectToRoute("ads_index");
+
+    }
 }

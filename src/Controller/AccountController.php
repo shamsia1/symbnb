@@ -86,7 +86,7 @@ class AccountController extends AbstractController
      * permet d'afficher et de traiter le formulaire de modification de profile
      * 
      * @Route("/account/profile", name="account_profile")
-     * @IsGranted('ROLE_USER')
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
@@ -115,7 +115,7 @@ class AccountController extends AbstractController
      * permet de modifier le mot de pass
      * 
      * @Route("/account/password-update", name="account_password")
-     * @IsGranted('ROLE_USER')
+     * @IsGranted("ROLE_USER")
      * @return Response
      */
     public function updatePassword(Request $request, UserPasswordEncoderInterface $encoder){
@@ -164,7 +164,7 @@ class AccountController extends AbstractController
      * permet d'afficher le profil de l'utilisateur connecté
      * 
      * @Route("/account", name="account_index")
-     * @IsGranted('ROLE_USER')
+     * @IsGranted("ROLE_USER")
      * 
      * @return Response
      */
