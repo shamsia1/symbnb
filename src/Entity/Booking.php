@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Booking
 {
@@ -52,6 +53,33 @@ class Booking
      * @ORM\Column(type="text", nullable=true)
      */
     private $comment;
+
+    //si le champ created at est vide, j'ai envie que ca dovinnne a nouveau date
+
+    /**
+     * 
+     * callbacks appelé a chaque fois qu'on cree une reservation
+     * 
+     * @ORM\PrePersist
+     * 
+     */
+    public function prePersist(){
+        if(empty($this->createdAt)){
+            $this->createdAt = new \DateTime();
+        }
+
+        if(empty($this->amount)){
+
+             $this->amount = $this->ad->getPrice()* $this->getDuration();
+        }
+    }
+
+
+    public function getDuration(){
+        $diff = $this->endDate->diff($this->startDate);
+
+        return $diff->days;
+    }
 
     public function getId(): ?int
     {
