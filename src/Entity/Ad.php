@@ -106,6 +106,37 @@ class Ad
         }
     }
 
+    /**
+     * permet d'obtenir un tableau des jours qui ne sont pas disponible pour cette announce
+     * 
+     * @return array Un tableau d'objets DateTime représentant les jous d'occupation
+     */
+    public function getNotAvailableDays(){
+        $notAvailableDays = [];
+
+        foreach($this->bookings as $booking){
+            //calculer les jous qui se trouvent entre la date d'arrivée et de depart
+
+            $resultat = range(
+                $booking->getStartDate()->getTimestamp(),
+                $booking->getEndDate()->getTimestamp(),
+                24*60*60
+            );
+
+            $days = array_map(function($dayTimestamp){
+                return new \DateTime(date('Y-m-d', $dayTimestamp));
+            }, $resultat);
+
+
+            $notAvailableDays = array_merge($notAvailableDays, $days);
+
+
+        }
+
+        return $notAvailableDays;
+
+    }
+
     public function getId(): ?int
     {
         return $this->id;

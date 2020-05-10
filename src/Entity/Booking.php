@@ -77,6 +77,52 @@ class Booking
         }
     }
 
+    public function isBookableDates(){
+        // il faut conaitre les dates qui sont impossible pour l'announce
+
+        $notAvailableDays = $this->ad->getNotAvailableDays();
+        // il faut comparer les dates choisies avec les dates impossible
+
+        $bookingDays = $this->getDays();
+
+        $formatDay = function($day){
+            return $day->format('Y-m-d');
+        };
+
+
+        //Tableau des chaines de caractéres de mes journées
+
+        $days = array_map($formatDay,$bookingDays);
+
+        $notAvailable = array_map($formatDay, $notAvailableDays);
+
+        foreach($days as $day){
+            if(array_search($day, $notAvailable)!==false) return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * permet de récuperer un tableau des journées qui correspondent a ma reservation
+     * 
+     * @return array un tableau d'objects DateTime représentent les jous de la reservation
+     * 
+     */
+    public function getDays(){
+        $resultat = range(
+            $this->startDate->getTimestamp(),
+            $this->endDate->getTimestamp(),
+            24*60*60
+        );
+
+        $days = array_map(function($dayTimestamp){
+            return new \DateTime(date('Y-m-d', $dayTimestamp));
+        }, $resultat);
+
+        return $days;
+
+    }
 
     public function getDuration(){
         $diff = $this->endDate->diff($this->startDate);
