@@ -112,6 +112,19 @@ class Ad
         }
     }
 
+    public function getAvgRatings(){
+        // calculer la somme des notations
+        $sum = array_reduce($this->comments->toArray(), function($total, $comment)
+        {
+            return $total + $comment->getRating();
+        }, 0);
+
+        //faire la division pour avoir la moyenne
+
+        if(count($this->comments) > 0) return $sum / count($this->comments);
+        return 0;
+    }
+
     /**
      * permet d'obtenir un tableau des jours qui ne sont pas disponible pour cette announce
      * 
