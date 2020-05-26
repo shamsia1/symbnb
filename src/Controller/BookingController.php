@@ -67,11 +67,30 @@ class BookingController extends AbstractController
      * @Route("/booking/{id}", name="booking_show")
      * @param Booking $booking
      * @return Response
+     * @param Request $request
+     * @param objectManager $manager
      */
-    public function show(Booking $booking){
+    public function show(Booking $booking, Request $request){
         $comment = new Comment();
 
         $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted()&& $form->isValid()){
+            $comment->setAd($booking->getAd())
+            ->setAuthor($this->getUser());
+
+            
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($comment);
+            $manager->flush();
+            
+            $this->addFlash(
+                'success',
+                "Votre commentaire a bien été pris en compte"
+            );
+
+        }
 
         return $this->render('booking/show.html.twig',[
             'booking' => $booking,
