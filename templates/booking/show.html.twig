@@ -79,7 +79,7 @@
                         </a>                      
                 </div>
 
-                <div class="alret alert-light">
+                <div class="alret alert-light" id="comment">
 
                     <h2 class="alert-heading">Votre avis compte !</h2>
                     {% if date() > date(booking.endDate)%}
@@ -92,7 +92,7 @@
                             <strong> 
                                 Note : 
                             </strong>
-                            {% include 'partiales/rating.html.twig' with {'rating': comment.rating} %}
+                            {% include 'partials/rating.html.twig' with {'rating': comment.rating} %}
                         {% else %}
                             {{ form_start(form) }}
                             {{ form_widget(form) }}
