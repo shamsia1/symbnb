@@ -3,8 +3,8 @@
 {% block title %}Vos réservation {% endblock %}
 {% block body %}
 <div class="container">
-    <h1>Mes réservation</h1>
-    <div class="alert alert-info mt-5">
+    <h1 class="my-5">Mes réservation</h1>
+    <div class="alert alert-info mt-3">
         <p>Retrouvez ci-dessous toutes vos réservation passées et a venir</p>
 
     </div>
@@ -31,7 +31,7 @@
                 <p>
                     Réservation <strong>n°{{booking.id}}</strong><br>
                     du {{booking.startDate|date('d/m/Y')}} au {{booking.endDate|date('d/m/Y')}}
-                    ({{booking.amount}} &euro;)
+                    ({{booking.amount| number_format(2, ',', '')}} &euro;)
                 </p>
                 <a href="{{ path('booking_show', {'id': booking.id})}}" class="btn btn-info">
 
