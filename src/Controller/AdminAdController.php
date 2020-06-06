@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminAdController extends AbstractController
 {
     /**
-     * @Route("/admin/ads", name="admin_ad_index")
+     * @Route("/admin/ads", name="admin_ads_index")
      */
     public function index(AdRepository $repo)
     {
