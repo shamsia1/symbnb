@@ -54,4 +54,37 @@ class AdminAdController extends AbstractController
         ]);
 
     }
+
+
+    /**
+     * 
+     * @Route("/admin/ads/{id}/delete", name="admin_ads_delete")
+     * 
+     * @param Ad $ad
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Ad $ad){
+        if(count($ad->getBookings()) > 0){
+            $this->addFlash(
+                'warning',
+                "vous ne pouvez pas supprimmer l'announce {$ad->getTitle()}
+                car elle posséde déja des réservations"
+            );
+        } else{
+
+            $manager = $this->getDoctrine()->getManager();
+        $manager->remove($ad);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "l'announce {$ad->getTitle()} a bien ete supprimer"
+        );
+
+       
+        }
+        return $this->redirectToRoute('admin_ads_index');
+     }
+        
 }
