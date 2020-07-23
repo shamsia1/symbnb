@@ -84,7 +84,7 @@ class AdminAdController extends AbstractController
 
        
         }
-        return $this->redirectToRoute('admin_ads_index');
+        return $this->redirectToRoute('admin_ads_index'); 
      }
         
 }
