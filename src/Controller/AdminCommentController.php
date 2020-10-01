@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Form\AdminCommentType;
 use App\Repository\CommentRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,6 +56,28 @@ class AdminCommentController extends AbstractController
             'comment' => $comment,
             'form' => $form->createView()
         ]); 
+
+    }
+
+    /**
+     * @Route("/admin/comments/{id}/delete", name="admin_comment_delete")
+     * 
+     * @param Comment $comment
+     * @param ObjectManager $manager
+     * @return Response
+     */
+    public function delete(Comment $comment){
+        
+        $manager = $this->getDoctrine()->getManager();
+            $manager->remove($comment);
+            $manager->flush();
+
+        $this->addFlash(
+            'success',
+            "le commmentaire n°{$comment->getAuthor()->getFullName()} a bien ete supprimé !"
+
+        );
+        return $this->redirectToRoute('admin_comment_index');
 
     }
 }
